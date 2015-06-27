@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ public class Hexapode : MonoBehaviour
 {
     [SerializeField]
     private GameObject goalSphere;
+    [SerializeField]
+    private UI ui;
 
     [SerializeField]
     private Leg leg1;
@@ -21,6 +24,9 @@ public class Hexapode : MonoBehaviour
     private Leg leg6;
 
     List<Leg> legs;
+
+    bool waitForTransition = false;
+    Func<IEnumerator> waitingGait;
 
 	// Use this for initialization
     void Start()
@@ -41,7 +47,8 @@ public class Hexapode : MonoBehaviour
         leg5.initRelativePosition(leg5.transform.position, -240);
         leg6.initRelativePosition(leg6.transform.position, -300);
 
-        StartCoroutine(goToPositionCoroutine());
+        goToStanStill();
+        StartCoroutine(goToPositionTripodCoroutine());
     }
 	
 	// Update is called once per frame
@@ -64,27 +71,86 @@ public class Hexapode : MonoBehaviour
         legs.ForEach(l => l.setDirection(goalSphere.transform.localPosition.normalized));
     }
 
-    IEnumerator goToPositionCoroutine()
+    private void goToStanStill()
     {
+        legs.ForEach(l => l.goToCenterPosition());
+    }
+
+    private void executeGaitTransition()
+    {
+        waitForTransition = false;
+        StopAllCoroutines();
+        StartCoroutine(waitingGait());
+    }
+
+    public void requestTripodTransition()
+    {
+        waitForTransition = true;
+        waitingGait = goToPositionTripodCoroutine;
+    }
+
+    public void requestPairTransitiod()
+    {
+        waitForTransition = true;
+        waitingGait = goToPositionPairCoroutine;
+    }
+
+    IEnumerator goToPositionTripodCoroutine()
+    {
+        calcGoal();
+
+        StartCoroutine(goToDirectionPair(leg1, leg4));
+        StartCoroutine(goToDirectionPair(leg5, leg2));
+        StartCoroutine(goToDirectionPair(leg3, leg6));
+        yield return new WaitForSeconds(0.3f);
+
         while (true)
         {
-            /*leg1.goTo(new Vector3(Random.Range(-3, 3), Random.Range(0, -3), Random.Range(8, 12)));
-            leg2.goTo(new Vector3(Random.Range(6, 9), Random.Range(0, -3), Random.Range(0, 5)));
-            leg3.goTo(new Vector3(Random.Range(6, 9), Random.Range(0, -3), Random.Range(0, -5)));
-            leg4.goTo(new Vector3(Random.Range(-3, 3), Random.Range(0, -3), Random.Range(-8, -12)));
-            leg5.goTo(new Vector3(Random.Range(-6, -9), Random.Range(0, -3), Random.Range(0, -5)));
-            leg6.goTo(new Vector3(Random.Range(-6, -9), Random.Range(0, -3), Random.Range(0, 5)));*/
-
+            yield return new WaitForSeconds(0.1f);
             calcGoal();
-            legs.ForEach(l => l.goToStartMovement());
-            while (!legsReachGoal())
-                yield return new WaitForSeconds(0.1f);
-            legs.ForEach(l => l.goToEndMovement());
-            while (!legsReachGoal())
-                yield return new WaitForSeconds(0.1f);
-            legs.ForEach(l => l.goToIdlePosition());
+        }
+    }
 
-            yield return new WaitForSeconds(0.5f);
+    IEnumerator goToPositionPairCoroutine()
+    {
+        calcGoal();
+
+        StartCoroutine(goToDirectionPair(leg1, leg4));
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(goToDirectionPair(leg5, leg2));
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(goToDirectionPair(leg3, leg6));
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            calcGoal();
+        }
+    }
+
+    IEnumerator goToDirectionPair(Leg l1, Leg l2)
+    {
+        float movementTime = 0.5f;
+
+        l1.goToIdle(movementTime);
+        yield return new WaitForSeconds(movementTime);
+        while(true)
+        {
+            l1.goToStart(movementTime);
+            yield return new WaitForSeconds(movementTime);
+
+            l2.goToIdle(movementTime);
+            l1.goToEnd(movementTime);
+            yield return new WaitForSeconds(movementTime);
+
+            l2.goToStart(movementTime);
+            yield return new WaitForSeconds(movementTime);
+
+            l1.goToIdle(movementTime);
+            l2.goToEnd(movementTime);
+            yield return new WaitForSeconds(movementTime);
+            if (waitForTransition)
+                executeGaitTransition();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Leg : MonoBehaviour 
+public class Leg : MonoBehaviour
 {
+    [SerializeField]
+    private UI ui;
     [SerializeField]
     private Servo gamma;
     [SerializeField]
@@ -31,8 +33,8 @@ public class Leg : MonoBehaviour
     Vector3 distanceToHexapod;
     Vector3 gotoDirCenterPosition;
 
-    Vector3 startMovement;
-    Vector3 endMovement;
+    Vector3 startPosition;
+    Vector3 endPosition;
     Vector3 idlePosition;
 
 	// Use this for initialization
@@ -46,10 +48,6 @@ public class Leg : MonoBehaviour
 
     void Update()
     {
-        if (startMovement != null && endMovement != null && gotoDirCenterTransform != null)
-        {
-            Debug.DrawLine(startMovement, endMovement);
-        }
     }
 
     public void initRelativePosition(Vector3 dist, float angle)
@@ -71,33 +69,72 @@ public class Leg : MonoBehaviour
 
     public void setDirection(Vector3 dir)
     {
-        startMovement = hexapodSpaceToLocalSpace(gotoDirCenterPosition + dir * speed);
-        endMovement = hexapodSpaceToLocalSpace(gotoDirCenterPosition - dir * speed);
+        startPosition = hexapodSpaceToLocalSpace(gotoDirCenterPosition + dir * speed);
+        endPosition = hexapodSpaceToLocalSpace(gotoDirCenterPosition - dir * speed);
         idlePosition = hexapodSpaceToLocalSpace(gotoDirCenterPosition + new Vector3(0, 3, 0));
 
-        startSphere.transform.localPosition = startMovement;
-        endSphere.transform.localPosition = endMovement;
+        startSphere.transform.localPosition = startPosition;
+        endSphere.transform.localPosition = endPosition;
     }
 
-    public void goToStartMovement()
+    public void stop()
     {
-        goTo(startMovement, false);
+        StopAllCoroutines();
+        gamma.stop();
+        alpha.stop();
+        beta.stop();
     }
 
-    public void goToEndMovement()
+    public void goToIdle(float time)
     {
-        goTo(endMovement, false);
+        goToInTime(idlePosition, time);
     }
 
-    public void goToIdlePosition()
+    public void goToStart(float time)
     {
-        goTo(idlePosition, false);
+        goToInTime(startPosition, time);
     }
 
-    public void goTo(Vector3 pos, bool convertSpace = true)
+    public void goToEnd(float time)
     {
-        if(convertSpace)
-            pos = hexapodSpaceToLocalSpace(pos);
+        goToInTime(endPosition, time);
+    }
+
+    public void goToCenterPosition()
+    {
+        stop();
+        goTo(hexapodSpaceToLocalSpace(gotoDirCenterPosition));
+    }
+
+    public void goToDirection()
+    {
+        stop();
+        StartCoroutine(goToDirectionCoroutine());
+    }
+
+    private IEnumerator goToDirectionCoroutine()
+    {
+        float movementTime = 0.5f;
+        goToInTime(idlePosition, movementTime);
+        while (!hasReachedGoal())
+            yield return null;
+        while(true)
+        {
+            goToInTime(startPosition, movementTime);
+            while (!hasReachedGoal())
+                yield return null;
+            goToInTime(endPosition, movementTime);
+            while (!hasReachedGoal())
+                yield return null;
+            yield return new WaitForSeconds(0.5f);
+            goToInTime(idlePosition, movementTime);
+            while (!hasReachedGoal())
+                yield return null;
+        }
+    }
+
+    private Vector3 processIK(Vector3 pos)
+    {
         goal = pos;
         sphereGoal.localPosition = goal;
         float distanceToTarget = Vector3.Distance(goal, Vector3.zero);
@@ -107,12 +144,36 @@ public class Leg : MonoBehaviour
         float beta1 = Mathf.Acos((Mathf.Pow(distanceToTarget, 2) - Mathf.Pow(tibiaLength, 2) - Mathf.Pow(femurLength, 2)) / (-2 * tibiaLength * femurLength));
 
         float gammaGoal = Mathf.Rad2Deg * Mathf.Atan2(goal.x, goal.z);
-        float alphaGoal = -Mathf.Rad2Deg * (alpha1 + alpha2 - Mathf.PI/2);
+        float alphaGoal = -Mathf.Rad2Deg * (alpha1 + alpha2 - Mathf.PI / 2);
         float betaGoal = Mathf.Rad2Deg * (-beta1 + Mathf.PI);
+        return new Vector3(gammaGoal, alphaGoal, betaGoal);
+    }
 
-        gamma.goTo(new Vector3(0, gammaGoal, 0));
-        alpha.goTo(new Vector3(alphaGoal, 0, 0));
-        beta.goTo(new Vector3(betaGoal, 0, 0));
+    public void goTo(Vector3 pos)
+    {
+        Vector3 rots = processIK(pos);
+
+        gamma.goTo(new Vector3(0, rots.x, 0));
+        alpha.goTo(new Vector3(rots.y, 0, 0));
+        beta.goTo(new Vector3(rots.z, 0, 0));
+    }
+
+    public void goToInTime(Vector3 pos, float time)
+    {
+        Vector3 rots = processIK(pos);
+
+        gamma.goToInTime(new Vector3(0, rots.x, 0), time);
+        alpha.goToInTime(new Vector3(rots.y, 0, 0), time);
+        beta.goToInTime(new Vector3(rots.z, 0, 0), time);
+    }
+
+    public void goToAtSpeed(Vector3 pos, float s)
+    {
+        Vector3 rots = processIK(pos);
+
+        gamma.goToAtSpeed(new Vector3(0, rots.x, 0), s);
+        alpha.goToAtSpeed(new Vector3(rots.y, 0, 0), s);
+        beta.goToAtSpeed(new Vector3(rots.z, 0, 0), s);
     }
 
     public bool hasReachedGoal()
