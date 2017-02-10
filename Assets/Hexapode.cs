@@ -25,9 +25,6 @@ public class Hexapode : MonoBehaviour
 
     List<Leg> legs;
 
-    bool waitForTransition = false;
-    Func<IEnumerator> waitingGait;
-
 	// Use this for initialization
     void Start()
     {
@@ -76,23 +73,16 @@ public class Hexapode : MonoBehaviour
         legs.ForEach(l => l.goToCenterPosition());
     }
 
-    private void executeGaitTransition()
-    {
-        waitForTransition = false;
-        StopAllCoroutines();
-        StartCoroutine(waitingGait());
-    }
-
     public void requestTripodTransition()
     {
-        waitForTransition = true;
-        waitingGait = goToPositionTripodCoroutine;
+        StopAllCoroutines();
+        StartCoroutine(goToPositionTripodCoroutine());
     }
 
     public void requestPairTransitiod()
     {
-        waitForTransition = true;
-        waitingGait = goToPositionPairCoroutine;
+        StopAllCoroutines();
+        StartCoroutine(goToPositionPairCoroutine());
     }
 
     IEnumerator goToPositionTripodCoroutine()
@@ -149,8 +139,6 @@ public class Hexapode : MonoBehaviour
             l1.goToIdle(movementTime);
             l2.goToEnd(movementTime);
             yield return new WaitForSeconds(movementTime);
-            if (waitForTransition)
-                executeGaitTransition();
         }
     }
 }

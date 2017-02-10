@@ -44,6 +44,7 @@ public class Leg : MonoBehaviour
         tibiaLength = 4f;
         femurLength = 4f;
         gotoDirCenterPosition = gotoDirCenterTransform.position;
+        Debug.Log(gotoDirCenterPosition);
 	}
 
     void Update()
