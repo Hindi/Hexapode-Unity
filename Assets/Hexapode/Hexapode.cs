@@ -38,14 +38,14 @@ public class Hexapode : MonoBehaviour
         legs.Add(leg6);
 
         leg1.initRelativePosition(leg1.transform.position, 0);
-        leg2.initRelativePosition(leg2.transform.position, -60);
+        /*leg2.initRelativePosition(leg2.transform.position, -60);
         leg3.initRelativePosition(leg3.transform.position, -120);
         leg4.initRelativePosition(leg4.transform.position, -180);
         leg5.initRelativePosition(leg5.transform.position, -240);
-        leg6.initRelativePosition(leg6.transform.position, -300);
+        leg6.initRelativePosition(leg6.transform.position, -300);*/
 
         goToStanStill();
-        StartCoroutine(goToPositionTripodCoroutine());
+        //StartCoroutine(goToPositionTripodCoroutine());
     }
 	
 	// Update is called once per frame
@@ -65,12 +65,14 @@ public class Hexapode : MonoBehaviour
 
     private void calcGoal()
     {
-        legs.ForEach(l => l.setDirection(goalSphere.transform.localPosition.normalized));
+        leg1.setDirection(goalSphere.transform.localPosition.normalized);
+        //legs.ForEach(l => l.setDirection(goalSphere.transform.localPosition.normalized));
     }
 
     private void goToStanStill()
     {
-        legs.ForEach(l => l.goToCenterPosition());
+        leg1.goToCenterPosition();
+        //legs.ForEach(l => l.goToCenterPosition());
     }
 
     public void requestTripodTransition()

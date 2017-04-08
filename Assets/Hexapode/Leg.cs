@@ -44,7 +44,6 @@ public class Leg : MonoBehaviour
         tibiaLength = 4f;
         femurLength = 4f;
         gotoDirCenterPosition = gotoDirCenterTransform.position;
-        Debug.Log(gotoDirCenterPosition);
 	}
 
     void Update()
@@ -154,9 +153,9 @@ public class Leg : MonoBehaviour
     {
         Vector3 rots = processIK(pos);
 
-        gamma.goTo(new Vector3(0, rots.x, 0));
-        alpha.goTo(new Vector3(rots.y, 0, 0));
-        beta.goTo(new Vector3(rots.z, 0, 0));
+        /*gamma.goTo(new Vector3(0, rots.x, 0));
+        alpha.goTo(new Vector3(0, 0, rots.y));
+        beta.goTo(new Vector3(0, 0, rots.z));*/
     }
 
     public void goToInTime(Vector3 pos, float time)

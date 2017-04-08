@@ -12,6 +12,11 @@ public class Servo : MonoBehaviour
     public bool ReachedTarget
     { get { return reachedTarget; } }
 
+    public void goToInstant(Vector3 angle)
+    {
+        transform.localRotation = Quaternion.Euler(angle);
+    }
+
     public void goTo(Vector3 angle)
     {
         goalEuler = angle;
