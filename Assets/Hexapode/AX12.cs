@@ -17,7 +17,7 @@ public class AX12 : MonoBehaviour {
     {
         rotation = goal - 135;
 
-        rotatingPart.rotation = Quaternion.Euler(axis * rotation);
+        rotatingPart.localRotation = Quaternion.Euler(axis * rotation);
         /*StopAllCoroutines();
         StartCoroutine(gotoCoroutine());*/
     }

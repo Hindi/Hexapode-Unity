@@ -14,16 +14,18 @@ public class AX12Manager : MonoBehaviour
 
     public void onRecieveGoToPacket(AX12GoToPacket packet)
     {
-        Debug.Log("AX12 " + packet.Id + " moved to " + packet.Angle);
         SetGoal(packet.Id - 1, packet.Angle);
     }
 
   private void SetGoal(int id, int goal)
   {
-    if (id != 0xFE)
-      ax12List[id].SetGoal(goal);
-    else
-      foreach (AX12 ax12 in ax12List)
-        ax12.SetGoal(goal);
+        if (id < ax12List.Count)
+        {
+            Debug.Log("AX12 " + id + " moved to " + goal);
+            ax12List[id].SetGoal(goal);
+        }
+        else if (id == 0xFE)
+            foreach (AX12 ax12 in ax12List)
+                ax12.SetGoal(goal);
   }
 }
