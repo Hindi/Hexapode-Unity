@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum SerialCode
 {
+    PRINT_LOG = 0x00,
     AX12_GOTO = 0x01
 
 }
@@ -17,6 +18,7 @@ public class PacketsHandler
     {
         packetTemplates = new Dictionary<SerialCode, IRecievedPacketHandler>();
         packetTemplates.Add(SerialCode.AX12_GOTO, new AX12GoToPacketHandler());
+        packetTemplates.Add(SerialCode.PRINT_LOG, new PrintLogPacketHandler());
     }
 
     public void processPacket(string packet)
