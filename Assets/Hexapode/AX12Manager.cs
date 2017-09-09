@@ -2,10 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class LegListWrapper
+{
+  public List<AX12> ax12List;
+}
+
 public class AX12Manager : MonoBehaviour
 {
-  [SerializeField]
-  private List<AX12> ax12List;
+    [SerializeField]
+    private List<LegListWrapper> legList;
 
     private void Awake()
     {
@@ -14,18 +20,22 @@ public class AX12Manager : MonoBehaviour
 
     public void onRecieveGoToPacket(AX12GoToPacket packet)
     {
-        SetGoal(packet.Id - 1, packet.Angle);
+        SetGoal(packet.Id, packet.Angle);
     }
 
-  private void SetGoal(int id, int goal)
-  {
-        if (id < ax12List.Count)
+    private void SetGoal(int id, int goal)
+    {
+        int legId = id / 10;
+        int ax12Id = id % 10 - 1;
+        if (legId < legList.Count && ax12Id < legList[legId].ax12List.Count)
         {
             Debug.Log("AX12 " + id + " moved to " + goal);
-            ax12List[id].SetGoal(goal);
+            legList[legId].ax12List[ax12Id].SetGoal(goal);
         }
+
         else if (id == 0xFE)
-            foreach (AX12 ax12 in ax12List)
-                ax12.SetGoal(goal);
-  }
+            foreach (LegListWrapper leg in legList)
+                foreach (AX12 ax12 in leg.ax12List)
+                    ax12.SetGoal(goal);
+    }
 }

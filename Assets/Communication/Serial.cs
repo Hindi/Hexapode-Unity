@@ -10,7 +10,7 @@ public class Serial : MonoBehaviour
   [SerializeField]
   private Dropdown serialPicker;
   [SerializeField]
-  private int baudRate = 115200;
+  private int baudRate = 1000000;
 
   PacketsHandler packetHandler;
 
@@ -85,7 +85,7 @@ public class Serial : MonoBehaviour
         }
       }
 
-      yield return new WaitForSeconds(0.2f);
+      yield return new WaitForSeconds(0.01f);
     }
   }
 

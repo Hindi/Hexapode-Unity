@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AX12 : MonoBehaviour {
+public class AX12 : MonoBehaviour
+{
 
     [SerializeField]
     private Vector3 axis;
@@ -10,36 +11,38 @@ public class AX12 : MonoBehaviour {
     private Transform rotatingPart;
 
     private int rotation = 0;
+    private int previousAngle;
     private bool reachedTarget = true;
-    private float speed = 10f;
+    private float speed = 1;
 
     public void SetGoal(int goal)
     {
-        rotation = goal - 135;
+        previousAngle = rotation;
+        rotation = goal - 150;
 
-        rotatingPart.localRotation = Quaternion.Euler(axis * rotation);
-        /*StopAllCoroutines();
-        StartCoroutine(gotoCoroutine());*/
+        //rotatingPart.localRotation = Quaternion.Euler(axis * rotation);
+        StopAllCoroutines();
+        StartCoroutine(gotoCoroutine());
     }
 
     IEnumerator gotoCoroutine()
     {
-        Vector3 startRot = rotatingPart.rotation.eulerAngles;
-        Vector3 previousRot = startRot;
+        Quaternion startRot = rotatingPart.rotation;
+        Quaternion previousRot = startRot;
+
         float startTime = Time.time;
         reachedTarget = false;
 
         while (!reachedTarget)
         {
             yield return null;
-            rotatingPart.rotation = Quaternion.Euler(Vector3.Lerp(startRot, axis * rotation, (Time.time - startTime) * speed));
 
-            if (previousRot == rotatingPart.rotation.eulerAngles)
+            if (previousRot == rotatingPart.rotation)
             {
                 reachedTarget = true;
                 break;
             }
-            previousRot = rotatingPart.rotation.eulerAngles;
+            previousRot = rotatingPart.rotation;
         }
     }
 }
