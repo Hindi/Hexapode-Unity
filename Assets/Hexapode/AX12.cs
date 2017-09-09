@@ -36,6 +36,7 @@ public class AX12 : MonoBehaviour
         while (!reachedTarget)
         {
             yield return null;
+            rotatingPart.localRotation = Quaternion.AngleAxis(Mathf.Lerp(previousAngle, rotation, (Time.time - startTime) * speed), axis);
 
             if (previousRot == rotatingPart.rotation)
             {
