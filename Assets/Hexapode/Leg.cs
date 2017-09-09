@@ -153,9 +153,9 @@ public class Leg : MonoBehaviour
     {
         Vector3 rots = processIK(pos);
 
-        /*gamma.goTo(new Vector3(0, rots.x, 0));
+        gamma.goTo(new Vector3(0, rots.x, 0));
         alpha.goTo(new Vector3(0, 0, rots.y));
-        beta.goTo(new Vector3(0, 0, rots.z));*/
+        beta.goTo(new Vector3(0, 0, rots.z));
     }
 
     public void goToInTime(Vector3 pos, float time)
