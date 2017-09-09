@@ -331,7 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 47736683}
 --- !u!1 &58302098
 GameObject:
@@ -988,7 +989,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 128114653}
 --- !u!1 &141173439
 GameObject:
@@ -2503,7 +2505,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 333083208}
 --- !u!1 &336867300
 GameObject:
@@ -2774,6 +2777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 344079342}
 --- !u!1 &346480540
 GameObject:
@@ -3112,7 +3116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 392451967}
 --- !u!1001 &393180476
 Prefab:
@@ -4422,7 +4427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 607933922}
 --- !u!1 &611187980
 GameObject:
@@ -5023,7 +5029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &676665176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,7 +5108,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 676665175}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.55, y: 0, z: 14.22}
+  m_LocalPosition: {x: 8.55, y: 0, z: 29.86}
   m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_Children:
   - {fileID: 1889298394}
@@ -7182,7 +7188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 893444046}
 --- !u!1 &911745411
 GameObject:
@@ -7483,7 +7490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 939572949}
 --- !u!1 &941124863
 GameObject:
@@ -7528,7 +7536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 941124864}
 --- !u!4 &947039957 stripped
 Transform:
@@ -7692,6 +7701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 984350883}
 --- !u!1 &985609497
 GameObject:
@@ -9579,6 +9589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 1216670847}
 --- !u!4 &1240827342
 Transform:
@@ -9711,7 +9722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 1253117092}
 --- !u!1 &1261671372
 GameObject:
@@ -9999,6 +10011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 1305046861}
 --- !u!1 &1309723573
 GameObject:
@@ -11769,6 +11782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 1524170326}
 --- !u!1 &1535346315
 GameObject:
@@ -12540,7 +12554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 1623864298}
 --- !u!1 &1628903441
 GameObject:
@@ -12585,7 +12600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 0, z: 1}
+  axis: {x: 0, y: 0, z: -1}
+  centerOffset: 150
   rotatingPart: {fileID: 1628903442}
 --- !u!1 &1632830974
 GameObject:
@@ -12888,6 +12904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
+  centerOffset: 240
   rotatingPart: {fileID: 1664669002}
 --- !u!1 &1676683673
 GameObject:
@@ -14331,7 +14348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a3a910986059f4c95bb90bdff4b4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: 0, y: -1, z: 0}
+  centerOffset: 150
   rotatingPart: {fileID: 1899599213}
 --- !u!1 &1902549681
 GameObject:

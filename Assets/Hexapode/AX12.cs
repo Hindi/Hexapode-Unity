@@ -6,19 +6,20 @@ public class AX12 : MonoBehaviour
 
     [SerializeField]
     private Vector3 axis;
-
+    [SerializeField]
+    private int centerOffset = 150;
     [SerializeField]
     private Transform rotatingPart;
 
     private int rotation = 0;
     private int previousAngle;
     private bool reachedTarget = true;
-    private float speed = 1;
+    private float speed = 10;
 
     public void SetGoal(int goal)
     {
         previousAngle = rotation;
-        rotation = goal - 150;
+        rotation = goal - centerOffset;
 
         //rotatingPart.localRotation = Quaternion.Euler(axis * rotation);
         StopAllCoroutines();
